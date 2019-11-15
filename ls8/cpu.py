@@ -39,10 +39,12 @@ class CPU:
     def LDI(self, a, b):
 
         self.reg[a] = b
+        print(self.reg)
         self.pc += 3
 
     # "PRN". `PRN`: a pseudo-instruction that prints the numeric value stored in a register.
     def PRN(self, a, b):
+        print(self.reg)
         print(self.reg[a])
         self.pc += 2
     
@@ -56,6 +58,7 @@ class CPU:
         self.pc += 3
     def CMP(self, a, b):
         self.alu("CMP", a, b)
+        print(f"Flag is {bin(self.FL)}")
         self.pc += 3
 
 
@@ -112,6 +115,8 @@ class CPU:
         else:
             self.pc += 2
 
+
+
     # Populate branchtable
     def branch_operations(self):
         self.branchtable[0b10000010] = self.LDI
@@ -150,21 +155,20 @@ class CPU:
             self.reg[reg_a] *= self.reg[reg_b]
 
         elif op == "CMP":
-            # if reg_a == reg_b
-            if self.reg[reg_a] == self.reg[reg_b]:
-                self.FL = 0b00000001
-                # set last bit to 1
-
             # if reg_a > reg_b
             if self.reg[reg_a] > self.reg[reg_b]:
                 # set 7th bit to 1
                 self.FL = 0b00000010
 
             # if reg_a < reg_b
-            else:
+            elif self.reg[reg_a] < self.reg[reg_b]:
                 self.FL = 0b00000100
                 # set 6th bit to 1
             
+            else:
+                self.FL = 0b00000001
+
+
         else:
             raise Exception("Unsupported ALU operation")
 
@@ -204,7 +208,7 @@ class CPU:
             operand_a = self.ram_read(self.pc + 1)
             operand_b = self.ram_read(self.pc + 2)
 
-            print(f"IR: {IR}")
+            # print(f"IR: {IR}")
             # print(f"A: {operand_a}")
             # print(f"B: {operand_b}")
 
