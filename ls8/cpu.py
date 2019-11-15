@@ -93,6 +93,11 @@ class CPU:
         # so next cycle will go from there
         self.pc = stack_value
 
+    # Jump to the address stored in the given register.
+    # Set the `PC` to the address stored in the given register.
+    def JMP(self, a, b):
+        self.pc = self.reg[a]
+
     # Populate branchtable
     def branch_operations(self):
         self.branchtable[0b10000010] = self.LDI
@@ -100,6 +105,7 @@ class CPU:
 
         self.branchtable[0b10100010] = self.MUL
         self.branchtable[0b10100000] = self.ADD
+        self.branchtable[0b10100111] = self.CMP
 
         self.branchtable[0b01000110] = self.STACK_POP
         self.branchtable[0b01000101] = self.STACK_PUSH
@@ -107,6 +113,7 @@ class CPU:
         self.branchtable[0b01010000] = self.CALL
         self.branchtable[0b00010001] = self.RET
 
+        self.branchtable[0b01010100] = self.JMP
 
 
     # Returns the value found at the address in memory
@@ -173,7 +180,6 @@ class CPU:
     def run(self):
         """Run the CPU."""
         # We're extracting the instructions from RAM it seems
-
         active = True
         # Initialize Instruction Register
 
@@ -183,7 +189,7 @@ class CPU:
             operand_a = self.ram_read(self.pc + 1)
             operand_b = self.ram_read(self.pc + 2)
 
-            # print(f"IR: {IR}")
+            print(f"IR: {IR}")
             # print(f"A: {operand_a}")
             # print(f"B: {operand_b}")
 
