@@ -47,13 +47,17 @@ class CPU:
         self.pc += 2
     
     ##### ALU OPERATIONS #####
-    def ADD(self, op_a, op_b):
-        self.alu("ADD", op_a, op_b)
+    def ADD(self, a, b):
+        self.alu("ADD", a, b)
         self.pc += 3
     # Multiply value a with b at location of reg[a]
     def MUL(self, a, b):
         self.alu("MUL", a, b)
         self.pc += 3
+    def CMP(self, a, b):
+        self.alu("CMP", a, b)
+        self.pc += 3
+
 
     ##### STACK OPERATIONS #####
     def STACK_POP(self, a, b):
@@ -73,6 +77,7 @@ class CPU:
         self.ram_write(self.stack_pointer, val)
         self.pc += 2
 
+    ##### SUBROUTINES #####
     def CALL(self, a, b):
         # store return address (self.pc + 2) in stack (return address is the next instruction address)
         self.stack_pointer -= 1
@@ -81,7 +86,6 @@ class CPU:
 
         # then move the pc to the subroutine address
         self.pc = self.reg[a]
-
 
     def RET(self, a, b):
         # pop return value from the stack and store it in self.pc
@@ -125,14 +129,19 @@ class CPU:
 
         elif op == "CMP":
             # if reg_a == reg_b
+            if self.reg[reg_a] == self.reg[reg_b]:
+                self.FL = 0b00000001
                 # set last bit to 1
 
-            # if reg_a < reg_b
-                # set 6th bit to 1
-
             # if reg_a > reg_b
+            if self.reg[reg_a] > self.reg[reg_b]:
                 # set 7th bit to 1
-            pass
+                self.FL = 0b00000010
+
+            # if reg_a < reg_b
+            else:
+                self.FL = 0b00000100
+                # set 6th bit to 1
             
         else:
             raise Exception("Unsupported ALU operation")
