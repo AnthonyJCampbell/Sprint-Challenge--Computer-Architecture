@@ -122,6 +122,17 @@ class CPU:
 
         elif op == "MUL":
             self.reg[reg_a] *= self.reg[reg_b]
+
+        elif op == "CMP":
+            # if reg_a == reg_b
+                # set last bit to 1
+
+            # if reg_a < reg_b
+                # set 6th bit to 1
+
+            # if reg_a > reg_b
+                # set 7th bit to 1
+            pass
             
         else:
             raise Exception("Unsupported ALU operation")
