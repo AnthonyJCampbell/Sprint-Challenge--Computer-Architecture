@@ -14,7 +14,13 @@ class CPU:
         self.branch_operations()
         # Initialize stack pointer
         self.stack_pointer = 0xF3
-
+        
+        # Flags register
+        # 0b00000LGE.
+        # L = Less than
+        # G = Greater
+        # E = Equals
+        self.FL = 0b00000000
 
 
     def load(self, program):
