@@ -98,6 +98,16 @@ class CPU:
     def JMP(self, a, b):
         self.pc = self.reg[a]
 
+    # If `equal` flag is set (true), jump to the address stored in the given register.
+    def JEQ(self, a, b):
+        if self.FL == 0b00000001:
+            self.pc = self.reg[a]
+
+    # If `E` flag is clear (false, 0), jump to the address stored in the given register.
+    def JNE(self, a, b):
+        if self.FL != 0b00000001:
+            self.pc = self.reg[a]
+
     # Populate branchtable
     def branch_operations(self):
         self.branchtable[0b10000010] = self.LDI
@@ -114,7 +124,8 @@ class CPU:
         self.branchtable[0b00010001] = self.RET
 
         self.branchtable[0b01010100] = self.JMP
-
+        self.branchtable[0b01010101] = self.JEQ
+        self.branchtable[0b01010110] = self.JNE
 
     # Returns the value found at the address in memory
     def ram_read(self, address):
