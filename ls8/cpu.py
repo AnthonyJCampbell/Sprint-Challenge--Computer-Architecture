@@ -39,12 +39,12 @@ class CPU:
     def LDI(self, a, b):
 
         self.reg[a] = b
-        print(self.reg)
+        # print(self.reg)
         self.pc += 3
 
     # "PRN". `PRN`: a pseudo-instruction that prints the numeric value stored in a register.
     def PRN(self, a, b):
-        print(self.reg)
+        # print(self.reg)
         print(self.reg[a])
         self.pc += 2
     
@@ -58,7 +58,7 @@ class CPU:
         self.pc += 3
     def CMP(self, a, b):
         self.alu("CMP", a, b)
-        print(f"Flag is {bin(self.FL)}")
+        # print(f"Flag is {bin(self.FL)}")
         self.pc += 3
 
 
