@@ -102,11 +102,15 @@ class CPU:
     def JEQ(self, a, b):
         if self.FL == 0b00000001:
             self.pc = self.reg[a]
+        else:
+            self.pc += 2
 
     # If `E` flag is clear (false, 0), jump to the address stored in the given register.
     def JNE(self, a, b):
         if self.FL != 0b00000001:
             self.pc = self.reg[a]
+        else:
+            self.pc += 2
 
     # Populate branchtable
     def branch_operations(self):
